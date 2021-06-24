@@ -96,7 +96,7 @@
         <div class="container">
           <div class="row">
             <div class="col">
-              <p class="text-center">
+              <p class="text-center m-0">
               <a data-judul="Headlines" data-tombol="entertainment" class="tombol-menu btn aktif" >
                 <svg style="" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                   <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
@@ -228,13 +228,27 @@
 
       window.addEventListener('DOMContentLoaded', function(){
         console.log("Ok");
-        fetch('https://newsapi.org/v2/top-headlines?country=id&category=entertainment&apiKey=4657fcfa5ff54c75bc1531c89dc537a9')
-          .then(res => res.json())
-          .then(data => {
-            // console.log(data);
-            const artikel = data.articles;
 
-            // console.log(artikel);
+        // Set up our HTTP request
+        var xhr = new XMLHttpRequest();
+
+        xhr.responseType = 'json';
+        // buat ubah ke result json
+
+        // Setup our listener to process completed requests
+        xhr.onload = function () {
+
+          // Process our return data
+          if (xhr.status >= 200 && xhr.status < 300) {
+            // What do when the request is successful
+
+            // console.log('success!', xhr.response);
+
+            // alert(xhr.response);
+
+            const data = xhr.response;
+
+            const artikel = data.articles;
 
             var IsiAllMenu = "";
 
@@ -296,29 +310,24 @@
 
             isiMenu.innerHTML = IsiAllMenu;
 
-            // const newList = artikel.map(n => `
-            //   <div class="card border-danger bg-transparent mb-2">
-            //     <div class="card-body">
-            //       <div class="row justify-content-center">
-            //         <div class="col-lg-3 mb-2 text-start">
-            //           <img src="`+ n.urlToImage +`" width="230" class="img-thumbnail rounded" alt="" id="img-artikel">
-            //         </div>
-            //         <div class="col-lg-8">
-            //           <h2 class="text-primary" id="judul-artikel">`+ n.title +`</h2>
-            //           <p id="isi-artikel">
-            //             `+ n.content +`
-            //           </p>
-            //           <p class="text-end">
-            //             <a href="`+ n.url +`" id="link-artikel" class="btn btn-primary" target="blank">GO TO DETAILS</a>
-            //           </p>
-            //         </div>
-            //       </div>
-            //     </div>
-            //   </div>
-            //   `)
+          } else {
+            // What do when the request fails
+            console.log('The request failed!');
+          }
 
-            // isiMenu.innerHTML = newList.join('');
-          })
+          // Code that should run regardless of the request status
+          // console.log('This always runs...');
+        };
+
+        // Create and send a GET request
+        // The first argument is the post type (GET, POST, PUT, DELETE, etc.)
+        // The second argument is the endpoint URL
+        // https://jsonplaceholder.typicode.com/posts
+        xhr.open('GET', 'https://newsapi.org/v2/top-headlines?country=id&category=entertainment&apiKey=4657fcfa5ff54c75bc1531c89dc537a9');
+        xhr.send();
+
+
+        
       });
 
 
@@ -330,6 +339,7 @@
           this.className += " aktif";
           console.log(this.getAttribute('data-tombol'));
           const menu = this.getAttribute('data-tombol');
+          const menuJudul = this.getAttribute('data-judul');
          
 
           if (menu == "info") {
@@ -345,11 +355,29 @@
             `;
             isiMenu.innerHTML = dataInfo;
           }else{
-            fetch('https://newsapi.org/v2/top-headlines?country=id&category='+ menu +'&apiKey=4657fcfa5ff54c75bc1531c89dc537a9')
-              .then(res => res.json())
-              .then(data => {
-                // console.log(data);
-                judulMenu.innerHTML = this.getAttribute('data-judul'); 
+
+            // Set up our HTTP request
+            var xhr = new XMLHttpRequest();
+
+            xhr.responseType = 'json';
+            // buat ubah ke result json
+
+            // Setup our listener to process completed requests
+            xhr.onload = function () {
+
+              // Process our return data
+              if (xhr.status >= 200 && xhr.status < 300) {
+                // What do when the request is successful
+
+                // console.log('success!', xhr.response);
+
+                // alert(xhr.response);
+
+                // console.log(xhr.response);
+
+                const data = xhr.response;
+
+                judulMenu.innerHTML = menuJudul; 
                 const artikel = data.articles;
 
                 // console.log(artikel);
@@ -429,30 +457,133 @@
 
                 isiMenu.innerHTML = IsiAllMenu;
 
-                // const newList = artikel.map(n =>
-                //   `
-                //   <div class="card border-danger bg-transparent mb-2">
-                //     <div class="card-body">
-                //       <div class="row justify-content-center">
-                //         <div class="col-lg-3 mb-2 text-start">
-                //           <img src="`+  n.urlToImage +`" width="230" class="img-thumbnail rounded" alt="" id="img-artikel">
-                //         </div>
-                //         <div class="col-lg-8">
-                //           <h2 class="text-primary" id="judul-artikel">`+ n.title +`</h2>
-                //           <p id="isi-artikel">
-                //             `+ n.content +`
-                //           </p>
-                //           <p class="text-end">
-                //             <a href="`+ n.url +`" id="link-artikel" class="btn btn-primary" target="blank">GO TO DETAILS</a>
-                //           </p>
-                //         </div>
-                //       </div>
-                //     </div>
-                //   </div>
-                //   `)
 
-                // isiMenu.innerHTML = newList.join('');
-              })
+
+              } else {
+                // What do when the request fails
+                console.log('The request failed!');
+              }
+
+              // Code that should run regardless of the request status
+              // console.log('This always runs...');
+            };
+
+            // Create and send a GET request
+            // The first argument is the post type (GET, POST, PUT, DELETE, etc.)
+            // The second argument is the endpoint URL
+            // https://jsonplaceholder.typicode.com/posts
+            xhr.open('GET', 'https://newsapi.org/v2/top-headlines?country=id&category='+ menu +'&apiKey=4657fcfa5ff54c75bc1531c89dc537a9');
+            xhr.send();
+
+
+            // fetch('https://newsapi.org/v2/top-headlines?country=id&category='+ menu +'&apiKey=4657fcfa5ff54c75bc1531c89dc537a9')
+            //   .then(res => res.json())
+            //   .then(data => {
+            //     // console.log(data);
+            //     judulMenu.innerHTML = this.getAttribute('data-judul'); 
+            //     const artikel = data.articles;
+
+            //     // console.log(artikel);
+
+            //     var IsiAllMenu = "";
+
+            //     // cara map pake logika if else
+            //     // https://stackoverflow.com/questions/28567549/how-to-use-if-within-a-map-return
+            //     const testData = artikel.map(function(cell, i){
+            //       // console.log(cell);
+
+            //       var dataIsiMenu = "";
+
+            //       if ( cell.urlToImage == null ) {
+            //        dataIsiMenu = `
+            //               <div class="card border-danger bg-transparent mb-2">
+            //                 <div class="card-body">
+            //                   <div class="row justify-content-center">
+            //                     <div class="col-lg-3 mb-2 text-start">
+            //                       <img src="blank.png" width="230" class="img-thumbnail rounded" alt="" id="img-artikel">
+            //                     </div>
+            //                     <div class="col-lg-8">
+            //                       <h2 class="text-primary" id="judul-artikel">`+ cell.title +`</h2>
+            //                       <p id="isi-artikel">
+            //                         `+ cell.content +`
+            //                       </p>
+            //                       <p class="text-end">
+            //                         <a href="`+ cell.url +`" id="link-artikel" class="btn btn-primary" target="blank">GO TO DETAILS</a>
+            //                       </p>
+            //                     </div>
+            //                   </div>
+            //                 </div>
+            //               </div>
+            //               `;
+            //       }else{
+
+            //         // var myRequest = new Request(cell.urlToImage);
+
+            //         // fetch(myRequest).then(function(response) {
+            //         //   console.log(response.status); // returns 200
+            //         //   response.blob().then(function(myBlob) {
+            //         //     var objectURL = URL.createObjectURL(myBlob);
+            //         //     // myImage.src = objectURL;
+            //         //     // console.log("Ok Ajah");z
+            //         //   });
+            //         // });
+
+
+            //        dataIsiMenu = `
+            //               <div class="card border-danger bg-transparent mb-2">
+            //                 <div class="card-body">
+            //                   <div class="row justify-content-center">
+            //                     <div class="col-lg-3 mb-2 text-start">
+            //                       <img src="`+  cell.urlToImage +`" width="230" class="img-thumbnail rounded" alt="" id="img-artikel">
+            //                     </div>
+            //                     <div class="col-lg-8">
+            //                       <h2 class="text-primary" id="judul-artikel">`+ cell.title +`</h2>
+            //                       <p id="isi-artikel">
+            //                         `+ cell.content +`
+            //                       </p>
+            //                       <p class="text-end">
+            //                         <a href="`+ cell.url +`" id="link-artikel" class="btn btn-primary" target="blank">GO TO DETAILS</a>
+            //                       </p>
+            //                     </div>
+            //                   </div>
+            //                 </div>
+            //               </div>
+            //               `;
+            //       }
+
+                  
+
+
+            //       IsiAllMenu += dataIsiMenu;
+
+            //     })
+
+            //     isiMenu.innerHTML = IsiAllMenu;
+
+            //     // const newList = artikel.map(n =>
+            //     //   `
+            //     //   <div class="card border-danger bg-transparent mb-2">
+            //     //     <div class="card-body">
+            //     //       <div class="row justify-content-center">
+            //     //         <div class="col-lg-3 mb-2 text-start">
+            //     //           <img src="`+  n.urlToImage +`" width="230" class="img-thumbnail rounded" alt="" id="img-artikel">
+            //     //         </div>
+            //     //         <div class="col-lg-8">
+            //     //           <h2 class="text-primary" id="judul-artikel">`+ n.title +`</h2>
+            //     //           <p id="isi-artikel">
+            //     //             `+ n.content +`
+            //     //           </p>
+            //     //           <p class="text-end">
+            //     //             <a href="`+ n.url +`" id="link-artikel" class="btn btn-primary" target="blank">GO TO DETAILS</a>
+            //     //           </p>
+            //     //         </div>
+            //     //       </div>
+            //     //     </div>
+            //     //   </div>
+            //     //   `)
+
+            //     // isiMenu.innerHTML = newList.join('');
+            //   })
 
           }
 
